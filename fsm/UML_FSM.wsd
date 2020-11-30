@@ -1,0 +1,19 @@
+@startuml UML_FSM
+
+[*] -> Greetings : Entry point
+Greetings --> Ask  : User's greeting identified
+Ask : Ask if user wants a trivia fact
+Greetings --> Display  : User's utterance not recognized
+Display : Display non ACK
+
+Display --> Ask
+Ask --> Ask : User's answer not understood
+Ask --> Farewells : User's response is negative
+Ask --> Tell
+Tell : Tell trivia
+Tell --> AskACK
+AskACK : Ask for ACK
+AskACK --> AskACK : User's ACK is below level 4 or not recognized
+AskACK --> Ask : User's utterance is at level 4 or higher
+Farewells -> [*]
+@enduml
