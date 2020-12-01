@@ -9,18 +9,38 @@ intents:
 - mood_great
 - mood_unhappy
 - bot_challenge
+- politeness
+- begin_trivia
 responses:
+  utter_welcome:
+  - text: Hi there! What can I help you with today?
   utter_greet:
   - text: Hey! How are you?
-  utter_ask_for_ACK_trivia_1:
+  utter_ask_for_ACK_trivia:
   - text: Did that help you?
   utter_good_ack:
   - text: Great, carry on!
   - text: That it, exactly!
   utter_goodbye:
   - text: Bye
-  utter_trivia_1:
+  utter_trivia:
   - text: France, in 2014, is a net importer of porcini mushrooms, according to French
       customs. The import price per ton was around € 14,000.
-  utter_trivia_2:
   - text: 'Only two national flags have the color purple on them: Dominica and Nicaragua.'
+  - text: The hashtag symbol is technically called an octothorpe.
+  - text: India and China are the only countries in the world with populations above
+      1 billion people.
+  utter_trivia_3:
+  - text: The hashtag symbol is technically called an octothorpe.
+  utter_trivia_4:
+  - text: India and China are the only countries in the world with populations above
+      1 billion people.
+  utter_to_no_greet:
+  - text: Hi, are you there?
+  utter_ask_for_trivia:
+  - text: Do you want me to give you a trivia?
+actions:
+- action_handle_denial
+- action_ask_user_question
+- action_handle_affirmation
+- give_trivia

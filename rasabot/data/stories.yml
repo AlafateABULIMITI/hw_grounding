@@ -1,1 +1,54 @@
 version: "2.0"
+stories:
+  - story: beginning of flow
+    steps:
+      - intent: begin_trivia
+      - action: utter_greet
+      # - action: utter_welcome
+      - checkpoint: check_no_greet
+      - intent: greet
+      - checkpoint: give_trivia
+      - action: utter_ask_for_trivia
+      - checkpoint: check_ask_deny
+      - or:
+          - intent: affirm
+          - intent: politeness
+      - action: utter_trivia
+      - action: utter_ask_for_ACK_trivia
+      - checkpoint: check_ack_deny
+      - intent: affirm
+      - checkpoint: give_trivia
+
+  - story: handle no greet
+    steps:
+      - checkpoint: check_no_greet
+      - action: utter_to_no_greet
+      - intent: greet
+      - checkpoint: give_trivia
+
+  - story: handle user affirm
+    steps:
+      - checkpoint: check_affirmation
+      - intent: affirm
+      - action: action_handle_affirmation
+      - checkpoint: affirmation
+
+  - story: handle user deny
+    steps:
+      - checkpoint: check_ask_deny
+      - intent: deny
+      - action: action_handle_denial
+      - checkpoint: check_flow_finished
+
+  - story: handle user ack deny
+  - steps:
+      - checkpoint: check_ack_deny
+      - intent: deny
+      - action: action_handle_denial
+      - checkpoint: give_trivia
+
+  - story: finish flow
+    steps:
+      - checkpoint: check_flow_finished
+      - intent: goodbye
+      - action: utter_goodbye

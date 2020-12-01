@@ -1,91 +1,206 @@
-#### This file contains tests to evaluate that your bot behaves as expected.
-#### If you want to learn more, please see the docs: https://rasa.com/docs/rasa/testing-your-assistant
-
+version: "2.0"
 stories:
+- story: beginning of flow
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - checkpoint: check_no_greet
+- story: beginning of flow
+  steps:
+  - checkpoint: check_no_greet
+  - intent: greet
+  - checkpoint: give_trivia
+- story: beginning of flow
+  steps:
+  - checkpoint: give_trivia
+  - action: utter_ask_for_trivia
+  - checkpoint: check_ask_deny
+- story: beginning of flow
+  steps:
+  - checkpoint: check_ask_deny
+  - or:
+    - intent: affirm
+    - intent: politeness
+  - action: utter_trivia
+  - action: utter_ask_for_ACK_trivia
+  - checkpoint: check_ack_deny
+- story: beginning of flow
+  steps:
+  - checkpoint: check_ack_deny
+  - intent: affirm
+  - checkpoint: give_trivia
+- story: handle no greet
+  steps:
+  - checkpoint: check_no_greet
+  - action: utter_to_no_greet
+  - intent: greet
+  - checkpoint: give_trivia
+- story: handle user affirm
+  steps:
+  - checkpoint: check_affirmation
+  - intent: affirm
+  - action: action_handle_affirmation
+  - checkpoint: affirmation
+- story: handle user deny
+  steps:
+  - checkpoint: check_ask_deny
+  - intent: deny
+  - action: action_handle_denial
+  - checkpoint: check_flow_finished
+- story: finish flow
+  steps:
+  - checkpoint: check_flow_finished
+  - intent: goodbye
+  - action: utter_goodbye
+- story: beginning of flow
+  steps:
+  - action: utter_greet
+  - checkpoint: check_no_greet
+- story: beginning of flow
+  steps:
+  - checkpoint: check_no_greet
+  - intent: greet
+  - checkpoint: give_trivia
+- story: beginning of flow
+  steps:
+  - checkpoint: give_trivia
+  - action: utter_ask_for_trvia
+  - checkpoint: check_ask_deny
+- story: beginning of flow
+  steps:
+  - checkpoint: check_ask_deny
+  - intent: affirm
+  - action: utter_trivia
+  - action: utter_ask_for_ACK_trivia
+  - checkpoint: check_ack_deny
+- story: beginning of flow
+  steps:
+  - checkpoint: check_ack_deny
+  - intent: affirm
+  - checkpoint: give_trivia
+- story: handle no greet
+  steps:
+  - checkpoint: check_no_greet
+  - action: utter_to_no_greet
+  - intent: greet
+  - checkpoint: give_trivia
+- story: handle user affirm
+  steps:
+  - checkpoint: check_affirmation
+  - intent: affirm
+  - action: action_handle_affirmation
+  - checkpoint: affirmation
+- story: handle user deny
+  steps:
+  - checkpoint: check_ask_deny
+  - intent: deny
+  - action: action_handle_denial
+  - checkpoint: check_flow_finished
+- story: finish flow
+  steps:
+  - checkpoint: check_flow_finished
+  - intent: goodbye
+  - action: utter_goodbye
 - story: happy path 1
   steps:
-  - user: |
+  - intent: greet
+    user: |-
       hello there!
-    intent: greet
   - action: utter_greet
-  - user: |
+  - intent: mood_great
+    user: |-
       amazing
-    intent: mood_great
   - action: utter_happy
-
 - story: happy path 2
   steps:
-  - user: |
+  - intent: greet
+    user: |-
       hello there!
-    intent: greet
   - action: utter_greet
-  - user: |
+  - intent: mood_great
+    user: |-
       amazing
-    intent: mood_great
   - action: utter_happy
-  - user: |
+  - intent: goodbye
+    user: |-
       bye-bye!
-    intent: goodbye
   - action: utter_goodbye
-
 - story: sad path 1
   steps:
-  - user: |
+  - intent: greet
+    user: |-
       hello
-    intent: greet
   - action: utter_greet
-  - user: |
+  - intent: mood_unhappy
+    user: |-
       not good
-    intent: mood_unhappy
   - action: utter_cheer_up
   - action: utter_did_that_help
-  - user: |
+  - intent: affirm
+    user: |-
       yes
-    intent: affirm
   - action: utter_happy
-
 - story: sad path 2
   steps:
-  - user: |
+  - intent: greet
+    user: |-
       hello
-    intent: greet
   - action: utter_greet
-  - user: |
+  - intent: mood_unhappy
+    user: |-
       not good
-    intent: mood_unhappy
   - action: utter_cheer_up
   - action: utter_did_that_help
-  - user: |
+  - intent: deny
+    user: |-
       not really
-    intent: deny
   - action: utter_goodbye
-
 - story: sad path 3
   steps:
-  - user: |
+  - intent: greet
+    user: |-
       hi
-    intent: greet
   - action: utter_greet
-  - user: |
+  - intent: mood_unhappy
+    user: |-
       very terrible
-    intent: mood_unhappy
   - action: utter_cheer_up
   - action: utter_did_that_help
-  - user: |
+  - intent: deny
+    user: |-
       no
-    intent: deny
   - action: utter_goodbye
-
 - story: say goodbye
   steps:
-  - user: |
+  - intent: goodbye
+    user: |-
       bye-bye!
-    intent: goodbye
   - action: utter_goodbye
-
 - story: bot challenge
   steps:
-  - user: |
+  - intent: bot_challenge
+    user: |-
       are you a bot?
-    intent: bot_challenge
   - action: utter_iamabot
+- story: beginning of flow
+  steps:
+  - intent: greet
+  - action: action_ask_user_question
+  - checkpoint: check_asked_question
+- story: handle user affirm
+  steps:
+  - checkpoint: check_asked_question
+  - intent: affirm
+  - action: action_handle_affirmation
+  - checkpoint: check_flow_finished
+- story: handle user deny
+  steps:
+  - checkpoint: check_asked_question
+  - intent: deny
+  - action: action_handle_denial
+  - checkpoint: check_flow_finished
+- story: finish flow
+  steps:
+  - checkpoint: check_flow_finished
+  - intent: goodbye
+  - action: utter_goodbye
