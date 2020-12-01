@@ -130,3 +130,10 @@ dmypy.json
 
 .vscode
 .DS_Store
+
+# model
+
+**.tar.gz
+**.db
+**.db-shm
+**.db-wal
